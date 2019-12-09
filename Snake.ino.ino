@@ -15,8 +15,8 @@ byte top=4;
 byte applex;
 byte appley;
 byte gen=0;
-int x_val[]={2,2,2,2};
-int y_val[]={3,2,1,0};
+int x_val[]={2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+int y_val[]={3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int i,j,k;
 float a,b,c;
 bool dmpReady = false;
@@ -77,7 +77,7 @@ int show()
     nlight(x_val[0],y_val[0]);
     counter1=0;
   }
-  for(i=1;i<4;i++)
+  for(i=1;i<top;i++)
   {
     light(x_val[i],y_val[i]);
     nlight(x_val[i],y_val[i]);
@@ -275,7 +275,10 @@ void loop()
     counter=0;
   }
   show();
-    Serial.print(applex);
-    Serial.print("  ");
-    Serial.println(appley);
+  if(applex==x_val[0] && appley==y_val[0])
+  {
+    top++;
+    memory();
+    generate_apple();
+  }
 }
