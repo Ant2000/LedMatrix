@@ -91,6 +91,7 @@ int memory()
     y_val[i]=y_val[i-1];
   }
 }
+void(* resetFunc) (void) = 0;
 void setup() 
 {
   
@@ -278,7 +279,16 @@ void loop()
   if(applex==x_val[0] && appley==y_val[0])
   {
     top++;
-    memory();
+    x_val[top-1]=x_val[top-2];
+    y_val[top-1]=y_val[top-2];
     generate_apple();
+  }
+  for(j=1;j<top;j++)
+  {
+    if(x_val[0]==x_val[j] && y_val[0]==y_val[j])
+    {
+      Serial.println("Lose");
+      resetFunc();
+    }
   }
 }
