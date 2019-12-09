@@ -7,13 +7,17 @@ MPU6050 mpu;
 //Some of the variables here may not used as they were ment for functions that have not been implimented yet
 int counter=0;
 int counter1=0;
+int counter2=0;
 const byte row[]={3,4,5,6,7};
 const byte col[]={8,9,10,11,12};
 byte state=0;
 byte top=4;
+byte applex;
+byte appley;
+byte gen=0;
 int x_val[]={2,2,2,2};
 int y_val[]={3,2,1,0};
-int i,j;
+int i,j,k;
 float a,b,c;
 bool dmpReady = false;
 uint8_t mpuIntStatus;
@@ -32,6 +36,22 @@ void dmpDataReady()
 {
     mpuInterrupt = true;
 }
+int generate_apple()
+{
+    marker:
+    applex= (rand()%5);
+    appley= (rand()%5);
+    Serial.print(applex);
+    Serial.print("  ");
+    Serial.println(appley);
+    for(k=0;k<top;k++)
+    {
+      if(applex==x_val[k] && appley==y_val[k])
+      {
+        goto marker;
+      }
+    }
+}
 int light(int x,int y)
 {
   digitalWrite(col[x],HIGH);
@@ -44,6 +64,13 @@ int nlight(int x,int y)
 }
 int show()
 {
+  if(counter2>=15)
+  {
+    light(applex,appley);
+    nlight(applex,appley);
+    counter2=0;
+  }
+  
   if(counter1>=4)
   {
     light(x_val[0],y_val[0]);
@@ -66,6 +93,7 @@ int memory()
 }
 void setup() 
 {
+  
   pinMode(12,OUTPUT);
   pinMode(3,OUTPUT);
   pinMode(4,OUTPUT);
@@ -116,6 +144,7 @@ void setup()
         Serial.print(devStatus);
         Serial.println(F(")"));
     }
+    generate_apple();
 }
 
 void loop() 
@@ -142,17 +171,18 @@ void loop()
       a=ypr[0] * 180/M_PI;
       b=ypr[1] * 180/M_PI;
       c=ypr[2] * 180/M_PI;
-      Serial.print("ypr\t");
+      /*Serial.print("ypr\t");
       Serial.print(a);
       Serial.print("\t");
       Serial.print(b);
       Serial.print("\t");
-      Serial.println(c);
+      Serial.println(c);*/
   }
   //Code till now has been copied and motified(in order to remove unnecessary data) from mpu examples
   //Following code is probably not the most optimised but I could not think of anything to make it better
   counter ++;
   counter1 ++;
+  counter2 ++;
   if(counter>15)
   {
     switch(state)
@@ -245,4 +275,7 @@ void loop()
     counter=0;
   }
   show();
+    Serial.print(applex);
+    Serial.print("  ");
+    Serial.println(appley);
 }
