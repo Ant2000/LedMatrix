@@ -9,9 +9,11 @@ int counter=0;
 const byte row[]={3,4,5,6,7};
 const byte col[]={8,9,10,11,12};
 byte state=0;
-byte top=4;
-int x_val[]={2,2,2,2};
-int y_val[]={3,2,1,0};
+byte top=3;
+int x_val[]={2,2,2};
+int y_val[]={2,1,0};
+byte x_head=2;
+byte y_head=3;
 int i,j;
 float a,b,c;
 bool dmpReady = false;
@@ -43,7 +45,9 @@ int nlight(int x,int y)
 }
 int show()
 {
-  for(i=0;i<4;i++)
+  light(x_head,y_head);
+  nlight(x_head,y_head);
+  for(i=0;i<top;i++)
   {
     light(x_val[i],y_val[i]);
     nlight(x_val[i],y_val[i]);
@@ -51,6 +55,8 @@ int show()
 }
 int memory()
 {
+  x_val[0]=x_head;
+  y_val[0]=y_head;
   for(i=top-1;i>0;i--)
   {
     x_val[i]=x_val[i-1];
@@ -156,80 +162,80 @@ void loop()
           memory();
           y_val[0]++;
         }
-        if(b>20 && x_val[0]<4)
+        if(b>20 && x_head<4)
         {
           state=1;
           memory();
-          x_val[0]++;
+          x_head++;
         }
-        if(b<-20 && x_val[0]>0)
+        if(b<-20 && x_head>0)
         {
           state=3;
           memory();
-          x_val[0]--;
+          x_head--;
         }
         break;
       }
       case 1:
       {
-        if(b>20 && x_val[0]<4)
+        if(b>20 && x_head<4)
         {
           memory();
-          x_val[0]++;
+          x_head++;
         }
-        if(c<-20 && y_val[0]>0)
+        if(c<-20 && y_head>0)
         {
           state=2;
           memory();
-          y_val[0]--;
+          y_head--;
         }
-        if(c>20 && y_val[0]<4)
+        if(c>20 && y_head<4)
         {
           state=0;
           memory();
-          y_val[0]++;
+          y_head++;
         }
         break;
       }
       case 2:
       {
-        if(c<-20 && y_val[0]>0)
+        if(c<-20 && y_head>0)
         {
           memory();
-          y_val[0]--;
+          y_head--;
         }
-        if(b>20 && x_val[0]<4)
+        if(b>20 && x_head<4)
         {
           state=1;
           memory();
-          x_val[0]++;
+          x_head++;
         }
-        if(b<-20 && x_val[0]>0)
+        if(b<-20 && x_head>0)
         {
           state=3;
           memory();
-          x_val[0]--;
+          x_head--;
         }
         break;
       }
       case 3:
       {
-        if(b<-20 && x_val[0]>0)
+        if(b<-20 && x_head>0)
         {
           memory();
-          x_val[0]--;
+          x_head--;
         }
-        if(c<-20 && y_val[0]>0)
+        if(c<-20 && y_head>0)
         {
           state=2;
           memory();
-          y_val[0]--;
+          y_head--;
         }
-        if(c>20 && y_val[0]<4)
+        if(c>20 && y_head<4)
         {
           state=0;
           memory();
-          y_val[0]++;
+          y_head++;
         }
         break;
       }
