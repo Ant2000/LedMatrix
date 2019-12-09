@@ -11,7 +11,7 @@ int counter2=0;
 const byte row[]={3,4,5,6,7};
 const byte col[]={8,9,10,11,12};
 byte state=0;
-byte top=4;
+byte top=2;
 byte applex;
 byte appley;
 byte gen=0;
